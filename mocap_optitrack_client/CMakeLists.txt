@@ -62,6 +62,12 @@ install(TARGETS
 )
 
 install(
+  DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(
   FILES                 ${natnet_sdk_content_SOURCE_DIR}/lib/libNatNet.so
   DESTINATION           lib
 )
