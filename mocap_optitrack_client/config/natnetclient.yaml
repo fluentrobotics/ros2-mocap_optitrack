@@ -4,7 +4,7 @@ natnet_client:
   ros__parameters:
     # Address of the NatNet server
     # Set to "host.docker.internal" if the node runs in a docker container on the same machine of the NatNet server.
-    # If, in addition, the container is hosted on a linux machine be sure to 
+    # If, in addition, the container is hosted on a linux machine be sure to
     # a) run the docker container with the option : --add-host host.docker.internal:host-gateway.
     # or
     # b) run the container with the option --net host
@@ -26,4 +26,7 @@ natnet_client:
     record: true
     # by default (with an empty string) the date and time will be used as name of the take
     take_name: ""
-  
+
+    ros_global_frame_id: "map"
+    object_mocap_num_ids: [1]
+    object_ros_frame_ids: ["base_link"]

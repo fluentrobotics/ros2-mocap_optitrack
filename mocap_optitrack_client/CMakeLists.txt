@@ -18,6 +18,7 @@ find_package(ament_cmake REQUIRED)
 # Add the custom interfaces for the mocap system
 find_package(rclcpp REQUIRED)#publisher
 find_package(rclcpp_components REQUIRED)
+find_package(tf2_ros REQUIRED)
 find_package(mocap_optitrack_interfaces REQUIRED)
 
 #Download the NatNet SDK library
@@ -44,16 +45,18 @@ PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${mocap_optitrack_interfaces_INCLUDE_DIRS}
+  tf2_ros::tf2_ros
 )
 target_link_libraries(mocap_optitrack_client
 PUBLIC
   natnet_sdk
   rclcpp::rclcpp
   ${mocap_optitrack_interfaces_LIBRARIES}
+  tf2_ros::tf2_ros
 )
 
 # INSTALLATION
-install(TARGETS 
+install(TARGETS
   mocap_optitrack_client
   DESTINATION lib/${PROJECT_NAME}
 )

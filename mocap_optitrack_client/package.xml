@@ -15,7 +15,8 @@
 
   <depend>mocap_optitrack_interfaces</depend>
   <depend>rclcpp</depend>
-
+  <depend>tf2_ros</depend>
+  <depend>geometry_msgs</depend>
 
 
   <export>
