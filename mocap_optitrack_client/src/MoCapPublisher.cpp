@@ -35,7 +35,7 @@ MoCapPublisher::MoCapPublisher() : Node("natnet_client") {
   this->declare_parameter("object_ros_frame_ids", rclcpp::PARAMETER_STRING_ARRAY);
 
   // Read ROS frames and tracked objects
-  this->get_parameter("ros_global_frame", this->ros_global_frame_id_);
+  this->get_parameter("ros_global_frame_id", this->ros_global_frame_id_);
   std::vector<long int> object_mocap_num_ids;
   std::vector<std::string> object_ros_frame_ids;
   this->get_parameter("object_mocap_num_ids", object_mocap_num_ids);
@@ -85,8 +85,12 @@ void MoCapPublisher::sendRigidBodyMessage(double cameraMidExposureSecsSinceEpoch
   std::sort(bodies.begin(), bodies.end(), cmpRigidBodyId);
 
   // Convert seconds since epoch to ROS time
-  int64_t cameraMidExposureNanoSecsSinceEpoch = int64_t(cameraMidExposureSecsSinceEpoch * 1e9);
-  rclcpp::Time cameraMidExposureTime = rclcpp::Time(cameraMidExposureNanoSecsSinceEpoch);
+  // int64_t cameraMidExposureNanoSecsSinceEpoch = int64_t(cameraMidExposureSecsSinceEpoch * 1e9)
+
+  // TODO: BUG: cameraMidExposureSecsSinceEpoch is infinity.
+  // Temporarily fix: use the ROS clock.
+  // rclcpp::Time cameraMidExposureTime = rclcpp::Time(cameraMidExposureNanoSecsSinceEpoch);
+  const rclcpp::Time cameraMidExposureTime = this->get_clock()->now();
 
   // Instanciate variables
   mocap_optitrack_interfaces::msg::RigidBodyArray msg;
