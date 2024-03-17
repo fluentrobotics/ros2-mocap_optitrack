@@ -15,7 +15,7 @@ natnet_client:
     # Type of the connection: 0 = multicast, 1 = unicast.
     connection_type: 0 #default value: 0
     # Multicast address of the server
-    multi_cast_address: "239.255.42.99" #default value : 239.255.42.99
+    multi_cast_address: "239.255.42.101" #default value : 239.255.42.99
     # Port where to send commands
     server_command_port: 1510 #default value: 1510
     # Port where to receive incoming data
@@ -23,7 +23,7 @@ natnet_client:
     # Topic where data is published
     pub_topic: "mocap_rigid_bodies"
     # wether to start the recording in Motive
-    record: true
+    record: false
     # by default (with an empty string) the date and time will be used as name of the take
     take_name: ""
 
