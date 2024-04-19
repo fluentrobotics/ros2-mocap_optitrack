@@ -52,6 +52,8 @@ MoCapPublisher::MoCapPublisher() : Node("natnet_client") {
     const int mocap_num_id = object_mocap_num_ids[i];
     const std::string& ros_frame_id = object_ros_frame_ids[i];
     this->map_mocap_id_ros_frame_id_[mocap_num_id] = ros_frame_id;
+
+    RCLCPP_WARN_STREAM(this->get_logger(), "Tracking object " << mocap_num_id << ": " << ros_frame_id);
   }
 
   // Create the publishers

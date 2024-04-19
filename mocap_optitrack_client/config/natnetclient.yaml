@@ -28,5 +28,5 @@ natnet_client:
     take_name: ""
 
     ros_global_frame_id: "map"
-    object_mocap_num_ids: [1]
-    object_ros_frame_ids: ["base_link"]
+    object_mocap_num_ids: [1, 2, 3]
+    object_ros_frame_ids: ["base_link", "Pringles", "human"]

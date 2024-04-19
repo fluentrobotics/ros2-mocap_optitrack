@@ -19,7 +19,8 @@ def generate_launch_description():
         executable='mocap_optitrack_client',
         name='natnet_client',
         parameters = [config],
-        arguments=['--ros-args', '--log-level', log_level]
+        arguments=['--ros-args', '--log-level', log_level],
+        output = "screen",
     )
     # Create the world to base client
     # config = os.path.join(
