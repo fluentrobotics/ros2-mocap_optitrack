@@ -13,7 +13,9 @@
 // Include the MoCap NatNet client
 #include <MoCapNatNetClient.h>
 
+#include <Eigen/Dense>
 #include <geometry_msgs/msg/transform_stamped.hpp>
+#include <tf2_eigen/tf2_eigen.hpp>
 
 bool cmpRigidBodyId(sRigidBodyData body_a, sRigidBodyData body_b) {
   return body_a.ID < body_b.ID;
@@ -152,6 +154,24 @@ void MoCapPublisher::updateTfTree(
     t.transform.rotation.y = pose.pose_stamped.pose.orientation.y;
     t.transform.rotation.z = pose.pose_stamped.pose.orientation.z;
     t.transform.rotation.w = pose.pose_stamped.pose.orientation.w;
+
+    // The motion capture tracks the centroid of the markers placed on a rigid
+    // body. In general, this will not be the same point as the base link of a
+    // robot, so a robot and marker-arrangement-specific correction needs to be
+    // applied to the pose obtained from the motion capture.
+    if (t.child_frame_id == "base_link") {
+      const Eigen::Isometry3d T_map_centroid = tf2::transformToEigen(t);
+
+      // Last updated for Stretch on 2024-04-18
+      const Eigen::Isometry3d T_centroid__base_link(Eigen::Translation3d(0.0954, 0.00652, -0.1339));
+
+      const Eigen::Isometry3d T_map__base_link = T_map_centroid * T_centroid__base_link;
+
+      // Copy the transform field to the original TransformStamped because the
+      // header in the new TransformStamped might not be set properly.
+      geometry_msgs::msg::TransformStamped t2 = tf2::eigenToTransform(T_map__base_link);
+      t.transform = t2.transform;
+    }
 
     this->tf_broadcaster_->sendTransform(t);
   }

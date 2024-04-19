@@ -18,6 +18,8 @@ find_package(ament_cmake REQUIRED)
 # Add the custom interfaces for the mocap system
 find_package(rclcpp REQUIRED)#publisher
 find_package(rclcpp_components REQUIRED)
+find_package(Eigen3 REQUIRED)
+find_package(tf2_eigen REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(mocap_optitrack_interfaces REQUIRED)
 
@@ -53,6 +55,8 @@ PUBLIC
   rclcpp::rclcpp
   ${mocap_optitrack_interfaces_LIBRARIES}
   tf2_ros::tf2_ros
+  tf2_eigen::tf2_eigen
+  Eigen3::Eigen
 )
 
 # INSTALLATION
