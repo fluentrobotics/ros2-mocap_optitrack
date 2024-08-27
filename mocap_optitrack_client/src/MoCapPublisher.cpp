@@ -138,14 +138,16 @@ void MoCapPublisher::sendRigidBodyMessage(double cameraMidExposureSecsSinceEpoch
 // Update the ROS Tf tree with the rigid body poses.
 void MoCapPublisher::updateTfTree(
     const mocap_optitrack_interfaces::msg::RigidBodyArray& pose_array) {
-  geometry_msgs::msg::TransformStamped t;
-  t.header.stamp = pose_array.header.stamp;
-  t.header.frame_id = this->ros_global_frame_id_;
+  std::vector<geometry_msgs::msg::TransformStamped> transforms;
 
   for (const mocap_optitrack_interfaces::msg::RigidBody& pose : pose_array.rigid_bodies) {
     if (this->map_mocap_id_ros_frame_id_.count(pose.id) == 0 || !pose.valid) {
       continue;
     }
+
+    geometry_msgs::msg::TransformStamped t;
+    t.header.stamp = pose_array.header.stamp;
+    t.header.frame_id = this->ros_global_frame_id_;
 
     t.child_frame_id = this->map_mocap_id_ros_frame_id_[pose.id];
 
@@ -175,8 +177,10 @@ void MoCapPublisher::updateTfTree(
       t.transform = t2.transform;
     }
 
-    this->tf_broadcaster_->sendTransform(t);
+    transforms.push_back(t);
   }
+
+  this->tf_broadcaster_->sendTransform(transforms);
 }
 
 // Method used to send fake messages to the client
