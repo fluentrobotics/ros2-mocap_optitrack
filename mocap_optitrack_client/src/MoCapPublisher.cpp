@@ -166,8 +166,8 @@ void MoCapPublisher::updateTfTree(
     if (t.child_frame_id == "base_link") {
       const Eigen::Isometry3d T_map_centroid = tf2::transformToEigen(t);
 
-      // Last updated for Stretch on 2024-04-18
-      const Eigen::Isometry3d T_centroid__base_link(Eigen::Translation3d(0.0954, 0.00652, -0.1339));
+      // Last updated for Stretch on 2024-08-13
+      const Eigen::Isometry3d T_centroid__base_link(Eigen::Translation3d(0.07839, 0.0031, -0.1142));
 
       const Eigen::Isometry3d T_map__base_link = T_map_centroid * T_centroid__base_link;
 
